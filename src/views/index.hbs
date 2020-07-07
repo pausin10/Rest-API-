@@ -1,0 +1,38 @@
+    {{#each search}}
+    <div class=" card-deck">
+        <div class="card-group">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-header">{{title}}</h5>
+                    <p class="card-text">Resumen: {{resume}}</p>
+                    <p class="card-text"><small class="text-muted">{{dateUpload}}</small></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ID: {{_id}}</li>
+                    <li class="list-group-item">Autor: {{author}}</li>
+                    <li class="list-group-item">Precio: {{price}}</li>
+                    <li class="list-group-item">Disponibles: {{quantity}}</li>
+                    <li class="list-group-item">Editorial: {{editorial}}</li>
+                    <li class="list-group-item">General:{{general}}</li>
+                    <li class="list-group-item">Numero de Paginas: {{pagesNumber}}</li>
+                    <li class="list-group-item">Año de Creacion: {{yearCreation}}</li>
+                    <li class="list-group-item">Examen: {{examen}}</li>
+                </ul>
+                <a href="/delete/{{_id}}" class="btn btn-primary btn-sm">Borrar</a>
+                <a href="/comprar/{{_id}}" class="btn btn-primary btn-sm">Comprar</a>
+                <a href="/modify/{{_id}}" class="btn btn-primary btn-sm">Modificar</a>
+
+            </div>
+        </div>
+
+        {{else}}
+        <div class="mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <p class="lead"> No hay Libros </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}

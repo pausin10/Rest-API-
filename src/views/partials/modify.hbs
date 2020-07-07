@@ -1,0 +1,42 @@
+<div class="col-md-4 mx-auto">
+    <h2>Modificar Libro</h2>
+    <form action="/modify/{{viewOne.id}}" method="post">
+        <div class="form-group">
+            <label>Titulo</label>
+            <input type="text" name="title" class="form-control" value="{{viewOne.title}}">
+        </div>
+        <div class="form-group">
+            <label>Autor</label>
+            <input type="text" name="author" class="form-control" value="{{viewOne.author}}">
+        </div>
+        <div class="form-group">
+            <label>Editorial</label>
+            <input type="text" name="editorial" class="form-control" value="{{viewOne.editorial}}">
+        </div>
+        <div class="form-group">
+            <label>General</label>
+            <input type="text" name="general" class="form-control" value="{{viewOne.general}}">
+        </div>
+        <div class="form-group">
+            <label>Precio</label>
+            <input type="text" name="price" class="form-control" value="{{viewOne.price}}">
+        </div>
+        <div class="form-group">
+            <label>Numero de Ejemplares</label>
+            <input type="text" name="quantity" class="form-control" value="{{viewOne.quantity}}">
+        </div>
+        <div class="form-group">
+            <label>Numero de Paginas</label>
+            <input type="text" name="pagesNumber" class="form-control" value="{{viewOne.pagesNumber}}">
+        </div>
+        <div class="form-group">
+            <label>Año de Creacion</label>
+            <input type="text" name="yearCreation" class="form-control" value="{{viewOne.yearCreation}}">
+        </div>
+        <div class="form-group">
+            <label>Resumen</label>
+            <textarea name="resume" class="form-control" value="{{viewOne.resume}}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Modificar</button>
+    </form>
+</div>
