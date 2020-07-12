@@ -4,11 +4,13 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const flash = require('connect-flash');
-
+const passport = require('passport');
+const bcrypt = require('bcryptjs');
 
 //Inicializaciones
 const app = express();
-const mongoose = require('./database');
+require('./database');
+require ('./passport/local-auth');
 
 //settings
 app.set('port', process.env.PORT || 3000);
@@ -32,16 +34,22 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Global Variables
 app.use((req,res,next) =>{
-    res.locals.correct = req.flash('correct');
-    res.locals.incorrect = req.flash('incorrect');
+    app.locals.correct = req.flash('correct');
+    app.locals.incorrect = req.flash('incorrect');
+    app.locals.user = req.user;
     next();
 });
 
 //routes
 app.use(require('./routes/routes'));
+app.use(require('./routes/login'));
+
+
 
 //server
 app.listen(app.get('port'), () => {

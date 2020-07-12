@@ -7,5 +7,15 @@ mongoose.connect('mongodb://localhost/Libreria', {
     useNewUrlParser: true,
     useFindAndModify: false
 })
- .then(db => console.log('DB is connected'))
+ .then(db => console.log('DB Libreria is connected'))
+ .catch(err => console.error(err));
+
+
+ mongoose.connect('mongodb://localhost/UserLibreria', {
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useFindAndModify: false
+})
+ .then(db => console.log('DB UserLibreia is connected'))
  .catch(err => console.error(err));

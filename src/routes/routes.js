@@ -3,15 +3,17 @@ const router = express.Router();
 
 const newBook = require('../models/nuevoLibro');
 
-router.get('/', async (req,res) =>{
+
+router.get('/home', isAuthenticated, async (req,res) =>{
     const search = await newBook.find().lean()    
     res.render('index', {search}) 
 });
 
-router.get('/search', (req,res)=>{
-    res.render('partials/search');
+router.get('/search', isAuthenticated, (req,res)=>{
+    res.render('API/search');
 });
-router.post('/search', async (req,res)=>{
+
+router.post('/search', isAuthenticated, async (req,res)=>{
     let{param,key} = req.body;
     let search = await newBook.find();
     if(param== 'ID'){
@@ -48,17 +50,17 @@ router.post('/search', async (req,res)=>{
     
 });
 
-router.get('/add', (req,res)=>{
-    res.render('partials/add');
+router.get('/add', isAuthenticated, (req,res)=>{
+    res.render('API/add');
 });
 
-router.get('/delete/:id', async (req,res) => {
+router.get('/delete/:id', isAuthenticated, async (req,res) => {
     const remove = await newBook.findByIdAndDelete(req.params.id);
     req.flash('correct', 'Libro borrado satisfactoriamente');
-    res.redirect('/');
+    res.redirect('/home');
 });
 
-router.get('/modify/:id', async (req,res) =>{
+router.get('/modify/:id', isAuthenticated, async (req,res) =>{
     const viewOne = await newBook.findById(req.params.id)
     .then(data =>{
         return {
@@ -74,12 +76,10 @@ router.get('/modify/:id', async (req,res) =>{
             quantity: data.quantity
         }
     })
-    res.render('partials/modify', {viewOne});
+    res.render('API/modify', {viewOne});
 });
 
-
-
-router.get('/comprar/:id', async (req,res) =>{
+router.get('/comprar/:id', isAuthenticated, async (req,res) =>{
     const buy = await newBook.findById(req.params.id)
     .then(data =>{
         return {
@@ -116,20 +116,18 @@ router.get('/comprar/:id', async (req,res) =>{
         req.flash('incorrect', ' No hay unidades');
         
     }
-    res.redirect('/');
+    res.redirect('/home');
 
 });
 
-
-router.post('/modify/:id', async (req,res) =>{
+router.post('/modify/:id', isAuthenticated, async (req,res) =>{
     const {title, author, editorial, general, resume, pagesNumber, yearCreation, price, quantity} = req.body;
     const modify = await newBook.findByIdAndUpdate(req.params.id,{title, author, editorial, general, resume, pagesNumber, yearCreation, price, quantity});
     req.flash('correct', 'Libro modificado satisfactoriamente');
-    res.redirect('/');
+    res.redirect('/home');
 });
 
-
-router.post('/add', async (req, res) =>{
+router.post('/add', isAuthenticated, async (req, res) =>{
     const {title, author, editorial, general, price, quantity, resume, pagesNumber, yearCreation, examen} = req.body;
     const uploadBook = new newBook({title, author, editorial, general, price, quantity, resume, pagesNumber, yearCreation, examen});
 
@@ -137,16 +135,22 @@ router.post('/add', async (req, res) =>{
         if(err){
             console.log(err);
             req.flash('incorrect','Error al añadir un libro');
-            res.redirect('/');
+            res.redirect('/home');
         }else{
             req.flash('correct', 'Libro añadido satisfactoriamente');
-            res.redirect('/');
+            res.redirect('/home');
         }
 
     });
      
 });
 
-
+function isAuthenticated(req,res,next) {
+    if(req.isAuthenticated()){
+        return next();
+    }
+    req.flash('incorrect', 'Not Authorized');
+    res.redirect('/');
+}
 
 module.exports = router;
