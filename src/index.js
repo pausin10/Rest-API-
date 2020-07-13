@@ -41,7 +41,7 @@ app.use(passport.session());
 app.use((req,res,next) =>{
     app.locals.correct = req.flash('correct');
     app.locals.incorrect = req.flash('incorrect');
-    app.locals.user = req.user;
+    //app.locals.user = req.user;
     next();
 });
 
